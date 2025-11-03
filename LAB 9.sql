@@ -3,17 +3,18 @@ USE CSE_3A_182;
 --Part – A: 
 --1. Display the result of 5 multiply by 30. 
  
- 
-   SELECT 5*30
+     SELECT 5*30
      
 --2. Find out the absolute value of -25, 25, -50 and 50. 
 
      SELECT ABS(-25),ABS(25),ABS(-50),ABS(50)
 
 --3. Find smallest integer value that is greater than or equal to 25.2, 25.7 and -25.2. 
+
       SELECT CEILING(25.2),CEILING(25.7),CEILING(-25.2)
  
---4. Find largest integer value that is smaller than or equal to 25.2, 25.7 and -25.2. 
+--4. Find largest integer value that is smaller than or equal to 25.2, 25.7 and -25.2.
+
      SELECT FLOOR(25.2),FLOOR(25.7),FLOOR(-25.2)
 
 --5. Find out remainder of 5 divided 2 and 5 divided by 3. 
@@ -275,46 +276,133 @@ SELECT * FROM EMP_MASTER;
      FROM EMP_MASTER
      WHERE EMPNAME LIKE '%R' AND CITY LIKE 'R%'
 
---Date Functions 
---Part – A: 
---1. Write a query to display the current date & time. Label the column Today_Date.
 
-     SELECT GETDATE() AS Today_Date
 
---2. Write a query to find new date after 365 day with reference to today. 
+---DATE FUNCTIONS---
 
-      SELECT DATEADD(D, 365, GETDATE()) AS new_date
 
---3. Display the current date in a format that appears as may 5 1994 12:00AM. 
-     
+---1) Write a query to display the current date & time. Label the column Today_Date.
 
---4. Display the current date in a format that appears as 03 Jan 1995. 
---5. Display the current date in a format that appears as Jan 04, 96. 
---6. Write a query to find out total number of months between 31-Dec-08 and 31-Mar-09. 
-     
-     SELECT DATEDIFF(MONTH, '2008-12-31', '2009-03-31') AS total_months;
+SELECT GETDATE() AS CURRENTDATE
 
---7. Write a query to find out total number of hours between 25-Jan-12 7:00 and 26-Jan-12 10:30. 
-    
-     SELECT DATEDIFF(HOUR, '2012-01-25 7:00:00', '2012-01-12 10:30:00') AS total_HOURS;
+---2) Write a query to find new date after 365 day with reference to today.
 
---8. Write a query to extract Day, Month, Year from given date 12-May-16. 
---9. Write a query that adds 5 years to current date. 
---10. Write a query to subtract 2 months from current date. 
---11. Extract month from current date using datename () and datepart () function. 
---12. Write a query to find out last date of current month. 
---13. Calculate your age in years and months. 
---Part – B: Perform following queries on EMP_MASTER table.  
---1. Write a query to find new date after 365 days with reference to JoiningDate. 
---2. Write a query to find out total number of months between JoiningDate and 31-Mar-09. 
---3. Write a query to find out total number of years between JoiningDate and 14-Sep-10. 
---Part – C: Perform following queries on EMP_MASTER table. 
---1. Write a query to extract Day, Month, Year from JoiningDate. 
---2. Write a query that adds 5 years to JoiningDate. 
---3. Write a query to subtract 2 months from JoiningDate. 
---4. Extract month from JoiningDate using datename () and datepart () function. 
---5. Select employee who joined between the 1st and 15th of any month in any year. 
---6. Find employee whose JoiningDate is the last day of any month. 
---7. List employee whose JoiningDate is during a leap year. 
+SELECT DATEADD(D,365,GETDATE()) AS DATEAFTER365
 
-   
+---3) Display the current date in a format that appears as may 5 1994 12:00AM.
+
+SELECT FORMAT(GETDATE(),'MMM dd yyyy H:M:S') AS TODAY
+
+---4) Display the current date in a format that appears as 03 Jan 1995.
+
+SELECT FORMAT(GETDATE(), 'dd MMM yyyy') AS FormattedDate
+
+---5) Display the current date in a format that appears as Jan 04, 96.
+
+SELECT FORMAT(GETDATE(), 'MMM dd, yy') AS FormattedDate
+
+---6) Write a query to find out total number of months between 31-Dec-08 and 31-Mar-09.
+
+SELECT DATEDIFF(MONTH,'2008-12-31' ,'2009-03-31') AS TOTAL_MONTHS
+
+---7) Write a query to find out total number of hours between 25-Jan-12 7:00 and 26-Jan-12 10:30.
+
+SELECT DATEDIFF(HOUR, '2012-01-25 07:00', '2012-01-26 10:30') AS TotalHours;
+
+---8) Write a query to extract Day, Month, Year from given date 12-May-16.
+
+SELECT 
+    DAY(CAST('12-May-16' AS DATE))   AS DAYPART,
+    MONTH(CAST('12-May-16' AS DATE)) AS MONTHPART,
+    YEAR(CAST('12-May-16' AS DATE))  AS YEARPART
+
+---9) Write a query that adds 5 years to current date.
+
+SELECT DATEADD(YEAR, 5, GETDATE()) AS DateAfter5Years
+
+---10) Write a query to subtract 2 months from current date.
+
+SELECT DATEADD(MONTH, -2, GETDATE()) AS DateBefore2Months
+
+---11) Extract month from current date using datename () and datepart () function.
+
+SELECT DATENAME(MONTH, GETDATE()) AS MONTH_NAME
+SELECT DATEPART(MONTH, GETDATE()) AS MONTH_NUMBER
+
+---12) Write a query to find out last date of current month.
+
+SELECT EOMONTH(GETDATE()) AS LastDateOfCurrentMonth
+
+---13) Calculate your age in years and months.
+
+
+
+----PART B---
+
+
+---1) Write a query to find new date after 365 days with reference to JoiningDate.
+
+SELECT JOININGDATE,
+DATEADD(DAY, 365, JOININGDATE) AS NEW_DATE_AFTER_365_DAYS
+FROM EMPLOYEES
+
+---2) Write a query to find out total number of months between JoiningDate and 31-Mar-09.
+
+SELECT JOININGDATE,
+DATEDIFF(MONTH, JOININGDATE, '2009-03-31') AS TOTAL_MONTHS
+FROM EMPLOYEES
+
+---3) Write a query to find out total number of years between JoiningDate and 14-Sep-10.
+
+SELECT JOININGDATE,
+DATEDIFF(YEAR, JOININGDATE, '2010-09-14') AS TOTAL_YEARS
+FROM EMPLOYEES
+
+
+---PART C---
+
+
+---1) Write a query to extract Day, Month, Year from JoiningDate.
+
+SELECT JOININGDATE,
+DAY(JOININGDATE) AS DAY_PART,
+MONTH(JOININGDATE) AS MONTH_PART,
+YEAR(JOININGDATE) AS YEAR_PART
+FROM EMPLOYEES
+
+---2) Write a query that adds 5 years to JoiningDate.
+
+SELECT JOININGDATE,
+DATEADD(YEAR, 5, JOININGDATE) AS NEW_DATE_AFTER_5_YEARS
+FROM EMPLOYEES
+
+---3) Write a query to subtract 2 months from JoiningDate.
+
+SELECT JOININGDATE,
+DATEADD(MONTH, -2, JOININGDATE) AS NEW_DATE_BEFORE_2_MONTHS
+FROM EMPLOYEES
+
+---4) Extract month from JoiningDate using datename () and datepart () function.
+
+SELECT JOININGDATE,
+DATENAME(MONTH, JOININGDATE) AS MONTH_NAME,
+DATEPART(MONTH, JOININGDATE) AS MONTH_NUMBER
+FROM EMPLOYEES
+
+---5) Select employee who joined between the 1st and 15th of any month in any year.
+
+SELECT EMPNAME,JOININGDATE
+FROM EMPLOYEES
+WHERE DAY(JOININGDATE) BETWEEN 1 AND 15
+
+---6) Find employee whose JoiningDate is the last day of any month.
+
+SELECT EMPNAME,JOININGDATE
+FROM EMPLOYEES
+WHERE JOININGDATE = EOMONTH(JOININGDATE)
+
+---7) List employee whose JoiningDate is during a leap year.
+
+SELECT EMPNAME,JOININGDATE
+FROM EMPLOYEES
+WHERE ((YEAR(JOININGDATE) % 4 = 0 AND YEAR(JOININGDATE) % 100 != 0) OR (YEAR(JOININGDATE) % 400 = 0))
